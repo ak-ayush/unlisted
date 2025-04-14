@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Protected Portfolio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f3f3;
+      text-align: center;
+      padding: 50px;
+    }
+    input[type="password"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 180px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter Access PIN</h2>
+  <input type="password" id="pinInput" placeholder="Enter PIN">
+  <br>
+  <button onclick="checkPIN()">Submit</button>
+
+  <div id="viewer" style="display:none;">
+    <h2>📊 Portfolio Viewer</h2>
+    <iframe id="sheetFrame"></iframe>
+  </div>
+
+  <script>
+    function checkPIN() {
+      const pin = document.getElementById("pinInput").value.trim().toUpperCase();
+      const iframe = document.getElementById("sheetFrame");
+      const viewer = document.getElementById("viewer");
+
+      const sheetLinks = {
+        "NAIK": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=645056394&single=true",
+        "DEEP18": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=689499501&single=true",
+        "VIKAS": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=1801769758&single=true"
+      };
+
+      if (sheetLinks[pin]) {
+        iframe.src = sheetLinks[pin];
+        viewer.style.display = "block";
+        document.getElementById("pinInput").style.display = "none";
+        document.querySelector("button").style.display = "none";
+      } else {
+        alert("Incorrect PIN. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
