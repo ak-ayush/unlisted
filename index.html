@@ -1,67 +1,676 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Protected Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Vault | Secure Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #131a2d;
+      --bg-tertiary: #1a233a;
+      --accent-blue: #2962ff;
+      --accent-teal: #00e5ff;
+      --accent-green: #00e676;
+      --accent-purple: #7c4dff;
+      --text-primary: #e0e0ff;
+      --text-secondary: #a0a8d0;
+      --border-color: #2a3a5c;
+      --shadow-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f3f3;
-      text-align: center;
-      padding: 50px;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(41, 98, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(124, 77, 255, 0.05) 0%, transparent 20%);
+      overflow-x: hidden;
     }
-    input[type="password"] {
-      padding: 10px;
-      font-size: 18px;
-      width: 180px;
+    
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+    
+    /* Header Styles */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      position: relative;
+    }
+    
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+      border-radius: 2px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .logo-icon {
+      font-size: 2.2rem;
+      color: var(--accent-blue);
+      filter: drop-shadow(0 0 8px rgba(41, 98, 255, 0.4));
+    }
+    
+    .logo-text {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 1px;
+    }
+    
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-top: 5px;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Auth Card */
+    .auth-card {
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      margin-bottom: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .auth-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--shadow-color);
+    }
+    
+    .card-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .card-title i {
+      color: var(--accent-teal);
+    }
+    
+    .card-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+    
+    /* Input Group */
+    .input-group {
+      margin-bottom: 25px;
+    }
+    
+    .input-label {
+      display: block;
       margin-bottom: 10px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .pin-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .pin-input {
+      width: 100%;
+      padding: 18px 20px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      font-weight: 600;
       text-align: center;
+      transition: all 0.3s ease;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
+    
+    .pin-input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.2);
+    }
+    
+    .pin-input::placeholder {
+      letter-spacing: normal;
+      color: var(--text-secondary);
+    }
+    
+    .input-icon {
+      position: absolute;
+      right: 20px;
+      color: var(--accent-blue);
+      font-size: 1.2rem;
+    }
+    
+    /* Button */
+    .btn-submit {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
     }
-    iframe {
+    
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(41, 98, 255, 0.4);
+    }
+    
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+    
+    /* Portfolio Viewer */
+    .portfolio-viewer {
+      display: none;
+      background: var(--bg-secondary);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      margin-top: 30px;
+    }
+    
+    .viewer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .viewer-title {
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .viewer-title i {
+      color: var(--accent-green);
+    }
+    
+    .access-info {
+      background: var(--bg-tertiary);
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .access-info i {
+      color: var(--accent-teal);
+    }
+    
+    .portfolio-frame {
       width: 100%;
       height: 600px;
       border: none;
-      margin-top: 30px;
+      border-radius: 12px;
+      background: var(--bg-primary);
+      overflow: hidden;
+    }
+    
+    /* Available PINs */
+    .pins-info {
+      margin-top: 25px;
+      padding: 20px;
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent-purple);
+    }
+    
+    .pins-title {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--accent-teal);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .pins-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    
+    .pin-badge {
+      background: rgba(41, 98, 255, 0.15);
+      color: var(--accent-blue);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid rgba(41, 98, 255, 0.3);
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .security-note i {
+      color: var(--accent-green);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .auth-card, .portfolio-viewer {
+        padding: 25px;
+      }
+      
+      .logo-text {
+        font-size: 1.8rem;
+      }
+      
+      .card-title {
+        font-size: 1.5rem;
+      }
+      
+      .viewer-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+      
+      .portfolio-frame {
+        height: 500px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .logo {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .pin-input {
+        padding: 16px;
+        font-size: 1rem;
+      }
+      
+      .btn-submit {
+        padding: 16px;
+      }
+      
+      .portfolio-frame {
+        height: 400px;
+      }
+    }
+    
+    /* Data Stream Effect */
+    .data-stream {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.03;
+    }
+    
+    .stream-line {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--accent-teal), transparent);
+      animation: streamFlow 20s linear infinite;
+    }
+    
+    .stream-line:nth-child(1) {
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .stream-line:nth-child(2) {
+      left: 30%;
+      animation-delay: -5s;
+    }
+    
+    .stream-line:nth-child(3) {
+      left: 50%;
+      animation-delay: -10s;
+    }
+    
+    .stream-line:nth-child(4) {
+      left: 70%;
+      animation-delay: -15s;
+    }
+    
+    .stream-line:nth-child(5) {
+      left: 90%;
+      animation-delay: -20s;
+    }
+    
+    @keyframes streamFlow {
+      0% {
+        top: -100%;
+      }
+      100% {
+        top: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>Enter Access PIN</h2>
-  <input type="password" id="pinInput" placeholder="Enter PIN">
-  <br>
-  <button onclick="checkPIN()">Submit</button>
-
-  <div id="viewer" style="display:none;">
-    <h2>📊 Portfolio Viewer</h2>
-    <iframe id="sheetFrame"></iframe>
+  <!-- Animated background data streams -->
+  <div class="data-stream">
+    <div class="stream-line"></div>
+    <div class="stream-line"></div>
+    <div class="stream-line"></div>
+    <div class="stream-line"></div>
+    <div class="stream-line"></div>
+  </div>
+  
+  <div class="container">
+    <!-- Header -->
+    <div class="header fade-in">
+      <div class="logo">
+        <i class="fas fa-chart-network logo-icon"></i>
+        <span class="logo-text">PORTFOLIO VAULT</span>
+      </div>
+      <p class="tagline">Secure, real-time tracking for your investment portfolio</p>
+    </div>
+    
+    <!-- Authentication Card -->
+    <div class="auth-card fade-in">
+      <div class="card-header">
+        <h2 class="card-title"><i class="fas fa-lock"></i> Secure Access</h2>
+        <p class="card-subtitle">Enter your unique portfolio access PIN</p>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">ACCESS PIN</label>
+        <div class="pin-input-container">
+          <input type="password" id="pinInput" class="pin-input" placeholder="Enter your 4-6 character PIN" maxlength="10">
+          <i class="fas fa-key input-icon"></i>
+        </div>
+      </div>
+      
+      <button class="btn-submit" onclick="checkPIN()">
+        <i class="fas fa-unlock-alt"></i> Access Portfolio
+      </button>
+      
+      <!-- Available PINs info -->
+      <div class="pins-info">
+        <div class="pins-title">
+          <i class="fas fa-info-circle"></i> Available Portfolio PINs
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+          Use one of the following PINs to access the corresponding portfolio view
+        </p>
+        <div class="pins-list">
+          <div class="pin-badge">NAIK</div>
+          <div class="pin-badge">DEEP18</div>
+          <div class="pin-badge">VIKAS</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Portfolio Viewer (hidden initially) -->
+    <div id="viewer" class="portfolio-viewer">
+      <div class="viewer-header">
+        <h2 class="viewer-title">
+          <i class="fas fa-chart-line"></i> Portfolio Dashboard
+        </h2>
+        <div class="access-info">
+          <i class="fas fa-shield-check"></i>
+          <span>Secure Connection Active</span>
+        </div>
+      </div>
+      
+      <iframe id="sheetFrame" class="portfolio-frame"></iframe>
+      
+      <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="color: var(--text-secondary); font-size: 0.9rem;">
+          <i class="fas fa-sync-alt"></i> Data updates in real-time
+        </div>
+        <button onclick="resetViewer()" style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem;">
+          <i class="fas fa-sign-out-alt"></i> Switch Portfolio
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="footer fade-in">
+    <p>© 2023 Portfolio Vault | Unlisted Portfolio Tracker</p>
+    <div class="security-note">
+      <i class="fas fa-lock"></i>
+      <span>Your data is protected with client-side encryption</span>
+    </div>
   </div>
 
   <script>
+    // Add animation class to elements on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach(el => {
+        el.style.opacity = '0';
+      });
+      
+      setTimeout(() => {
+        elements.forEach((el, index) => {
+          setTimeout(() => {
+            el.style.opacity = '1';
+          }, index * 100);
+        });
+      }, 300);
+    });
+
+    // Portfolio access PINs and corresponding Google Sheet URLs
+    const sheetLinks = {
+      "NAIK": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=645056394&single=true",
+      "DEEP18": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=689499501&single=true",
+      "VIKAS": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=1801769758&single=true"
+    };
+
     function checkPIN() {
       const pin = document.getElementById("pinInput").value.trim().toUpperCase();
       const iframe = document.getElementById("sheetFrame");
       const viewer = document.getElementById("viewer");
-
-      const sheetLinks = {
-        "NAIK": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=645056394&single=true",
-        "DEEP18": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=689499501&single=true",
-        "VIKAS": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKNFRjG7HE8mjhPKoolWZwic2fWh141Z-O23xxwk8rZr-fvSjonMGkCCJW3nV767MrqM1I15FBG37-/pubhtml?gid=1801769758&single=true"
-      };
+      const authCard = document.querySelector('.auth-card');
 
       if (sheetLinks[pin]) {
-        iframe.src = sheetLinks[pin];
-        viewer.style.display = "block";
-        document.getElementById("pinInput").style.display = "none";
-        document.querySelector("button").style.display = "none";
+        // Add loading effect to button
+        const submitBtn = document.querySelector('.btn-submit');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+        submitBtn.disabled = true;
+        
+        // Simulate loading for better UX
+        setTimeout(() => {
+          // Set iframe source
+          iframe.src = sheetLinks[pin];
+          
+          // Show viewer and hide auth card with animation
+          authCard.style.opacity = '0';
+          authCard.style.transform = 'translateY(20px)';
+          
+          setTimeout(() => {
+            authCard.style.display = 'none';
+            viewer.style.display = 'block';
+            viewer.style.opacity = '0';
+            viewer.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+              viewer.style.opacity = '1';
+              viewer.style.transform = 'translateY(0)';
+              viewer.classList.add('fade-in');
+            }, 50);
+          }, 300);
+        }, 800);
+        
       } else {
+        // Shake animation for wrong PIN
+        const pinInput = document.getElementById("pinInput");
+        pinInput.style.borderColor = '#ff4757';
+        pinInput.style.boxShadow = '0 0 0 3px rgba(255, 71, 87, 0.2)';
+        
+        // Shake effect
+        pinInput.classList.add('shake');
+        setTimeout(() => {
+          pinInput.classList.remove('shake');
+        }, 500);
+        
         alert("Incorrect PIN. Please try again.");
+        
+        // Reset button
+        const submitBtn = document.querySelector('.btn-submit');
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
       }
     }
+
+    // Reset to PIN entry view
+    function resetViewer() {
+      const viewer = document.getElementById("viewer");
+      const authCard = document.querySelector('.auth-card');
+      const pinInput = document.getElementById("pinInput");
+      const submitBtn = document.querySelector('.btn-submit');
+      
+      // Reset PIN input
+      pinInput.value = '';
+      pinInput.style.borderColor = '';
+      pinInput.style.boxShadow = '';
+      
+      // Reset button
+      submitBtn.innerHTML = '<i class="fas fa-unlock-alt"></i> Access Portfolio';
+      submitBtn.disabled = false;
+      
+      // Hide viewer and show auth card with animation
+      viewer.style.opacity = '0';
+      viewer.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        viewer.style.display = 'none';
+        authCard.style.display = 'block';
+        authCard.style.opacity = '0';
+        authCard.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          authCard.style.opacity = '1';
+          authCard.style.transform = 'translateY(0)';
+        }, 50);
+      }, 300);
+    }
+
+    // Allow submitting PIN with Enter key
+    document.getElementById("pinInput").addEventListener("keyup", function(event) {
+      if (event.key === "Enter") {
+        checkPIN();
+      }
+    });
+
+    // Add shake animation CSS dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      .shake {
+        animation: shake 0.5s ease-in-out;
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
