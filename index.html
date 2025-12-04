@@ -276,41 +276,6 @@
       overflow: hidden;
     }
     
-    /* Available PINs */
-    .pins-info {
-      margin-top: 25px;
-      padding: 20px;
-      background: var(--bg-tertiary);
-      border-radius: 12px;
-      border-left: 4px solid var(--accent-purple);
-    }
-    
-    .pins-title {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      color: var(--accent-teal);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .pins-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    
-    .pin-badge {
-      background: rgba(41, 98, 255, 0.15);
-      color: var(--accent-blue);
-      padding: 8px 16px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border: 1px solid rgba(41, 98, 255, 0.3);
-    }
-    
     /* Footer */
     .footer {
       text-align: center;
@@ -478,7 +443,7 @@
       <div class="input-group">
         <label class="input-label">ACCESS PIN</label>
         <div class="pin-input-container">
-          <input type="password" id="pinInput" class="pin-input" placeholder="Enter your 4-6 character PIN" maxlength="10">
+          <input type="password" id="pinInput" class="pin-input" placeholder="Enter your confidential access PIN" maxlength="10">
           <i class="fas fa-key input-icon"></i>
         </div>
       </div>
@@ -486,21 +451,6 @@
       <button class="btn-submit" onclick="checkPIN()">
         <i class="fas fa-unlock-alt"></i> Access Portfolio
       </button>
-      
-      <!-- Available PINs info -->
-      <div class="pins-info">
-        <div class="pins-title">
-          <i class="fas fa-info-circle"></i> Available Portfolio PINs
-        </div>
-        <p style="color: var(--text-secondary); font-size: 0.95rem;">
-          Use one of the following PINs to access the corresponding portfolio view
-        </p>
-        <div class="pins-list">
-          <div class="pin-badge">NAIK</div>
-          <div class="pin-badge">DEEP18</div>
-          <div class="pin-badge">VIKAS</div>
-        </div>
-      </div>
     </div>
     
     <!-- Portfolio Viewer (hidden initially) -->
